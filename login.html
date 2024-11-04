@@ -1,0 +1,426 @@
+<html><head><base href="https://consortium-software.com/" />
+    <meta charset="UTF-8">
+    <title>Sistema de Gerenciamento de Consórcios - Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+    :root {
+      --primary: #2c3e50;
+      --secondary: #34495e;
+      --accent: #3498db;
+      --success: #27ae60;
+      --warning: #f1c40f;
+    }
+    
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+    }
+    
+    .login-container {
+      max-width: 500px;
+      margin: 50px auto;
+      padding: 2rem;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    
+    .role-selector {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    
+    .role-card {
+      cursor: pointer;
+      padding: 1.5rem;
+      border-radius: 10px;
+      text-align: center;
+      transition: all 0.3s ease;
+      width: 150px;
+      border: 2px solid #eee;
+    }
+    
+    .role-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .role-card.active {
+      border-color: var(--accent);
+      background-color: #f8f9fa;
+    }
+    
+    .role-card i {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: var(--accent);
+    }
+    
+    .main-container {
+      display: none;
+      padding: 2rem;
+    }
+    
+    .nav-tabs .nav-link.active {
+      background-color: var(--accent);
+      color: white;
+    }
+    
+    .user-info {
+      background: var(--primary);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      margin-bottom: 1rem;
+    }
+    
+    .btn-primary {
+      background-color: var(--accent);
+      border: none;
+    }
+    
+    .btn-primary:hover {
+      background-color: #2980b9;
+    }
+    
+    #loading-spinner {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1000;
+    }
+    
+    .feature-access {
+      font-size: 0.8rem;
+      color: #666;
+      margin-top: 1rem;
+    }
+    
+    .backup-status {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 10px;
+      background: white;
+      border-radius: 5px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    </style>
+    </head>
+    <body>
+    
+    <div id="loading-spinner" class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Carregando...</span>
+    </div>
+    
+    <!-- Login Container -->
+    <div class="login-container" id="login-section">
+      <h2 class="text-center mb-4">Sistema de Consórcios</h2>
+      
+      <div class="role-selector">
+        <div class="role-card" data-role="manager">
+          <i class="fas fa-user-tie"></i>
+          <h5>Gerente</h5>
+          <small>Acesso total ao sistema</small>
+        </div>
+        <div class="role-card" data-role="seller">
+          <i class="fas fa-user"></i>
+          <h5>Vendedor</h5>
+          <small>Acesso limitado</small>
+        </div>
+      </div>
+    
+      <form id="login-form">
+        <div class="mb-3">
+          <label for="username" class="form-label">Usuário</label>
+          <input type="text" class="form-control" id="username" required>
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Senha</label>
+          <input type="password" class="form-control" id="password" required>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Entrar</button>
+        <div class="feature-access" id="feature-access"></div>
+      </form>
+    </div>
+    
+    <!-- Main Application Container -->
+    <div class="main-container" id="main-section">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Sistema de Consórcios</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+              <li class="nav-item">
+                <a class="nav-link active" href="#spreadsheet">Planilha</a>
+              </li>
+              <li class="nav-item manager-only">
+                <a class="nav-link" href="#archived">Arquivados</a>
+              </li>
+              <li class="nav-item manager-only">
+                <a class="nav-link" href="#reports">Relatórios</a>
+              </li>
+            </ul>
+            <div class="user-info me-3">
+              <i class="fas fa-user"></i>
+              <span id="user-role-display"></span>
+            </div>
+            <button class="btn btn-light" id="logout-btn">Sair</button>
+          </div>
+        </div>
+      </nav>
+    
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <div class="spreadsheet-container">
+              <h3>Planilha Atual</h3>
+              <div class="mb-3">
+                <iframe id="google-forms-embed" src="https://docs.google.com/forms/d/e/your-form-id/viewform?embedded=true" 
+                        width="100%" height="500" frameborder="0" marginheight="0" marginwidth="0">
+                  Carregando formulário...
+                </iframe>
+              </div>
+              <div class="btn-group manager-only">
+                <button class="btn btn-primary" id="print-btn">
+                  <i class="fas fa-print"></i> Imprimir
+                </button>
+                <button class="btn btn-secondary" id="archive-btn">
+                  <i class="fas fa-archive"></i> Arquivar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <div class="row mt-4 manager-only">
+          <div class="col-12">
+            <h3>Planilhas Arquivadas</h3>
+            <div id="archived-list"></div>
+          </div>
+        </div>
+      </div>
+    
+      <div class="backup-status" id="backup-status">
+        <small>Último backup: <span id="last-backup-time">-</span></small>
+      </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/your-font-awesome-kit.js"></script>
+    <script>
+    class ConsortiumSystem {
+      constructor() {
+        this.init();
+        this.setupEventListeners();
+        this.archivedSpreadsheets = [];
+        this.currentRole = null;
+        this.backupInterval = null;
+      }
+    
+      init() {
+        this.loginForm = document.getElementById('login-form');
+        this.loginSection = document.getElementById('login-section');
+        this.mainSection = document.getElementById('main-section');
+        this.loadingSpinner = document.getElementById('loading-spinner');
+        this.roleCards = document.querySelectorAll('.role-card');
+        this.featureAccess = document.getElementById('feature-access');
+      }
+    
+      setupEventListeners() {
+        this.loginForm.addEventListener('submit', (e) => this.handleLogin(e));
+        document.getElementById('logout-btn').addEventListener('click', () => this.handleLogout());
+        document.getElementById('print-btn').addEventListener('click', () => this.handlePrint());
+        document.getElementById('archive-btn').addEventListener('click', () => this.handleArchive());
+    
+        this.roleCards.forEach(card => {
+          card.addEventListener('click', () => this.selectRole(card));
+        });
+      }
+    
+      selectRole(card) {
+        this.roleCards.forEach(c => c.classList.remove('active'));
+        card.classList.add('active');
+        this.currentRole = card.dataset.role;
+        this.updateFeatureAccess();
+      }
+    
+      updateFeatureAccess() {
+        const features = {
+          manager: [
+            "✓ Acesso total às planilhas",
+            "✓ Impressão e arquivamento",
+            "✓ Gerenciamento de dados",
+            "✓ Relatórios avançados"
+          ],
+          seller: [
+            "✓ Visualização de planilhas",
+            "✓ Inserção de dados",
+            "✗ Sem acesso a arquivos",
+            "✗ Sem acesso a relatórios"
+          ]
+        };
+    
+        this.featureAccess.innerHTML = this.currentRole ? 
+          `<div class="mt-3"><strong>Recursos disponíveis:</strong><br>${features[this.currentRole].join('<br>')}</div>` : '';
+      }
+    
+      handleLogin(e) {
+        e.preventDefault();
+        if (!this.currentRole) {
+          alert('Por favor, selecione um perfil de acesso');
+          return;
+        }
+    
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+    
+        this.showLoading();
+        
+        // Simulate API call for authentication
+        setTimeout(() => {
+          const isValidCredentials = this.validateCredentials(username, password);
+          if (isValidCredentials) {
+            this.loginSuccess();
+          } else {
+            alert('Credenciais inválidas');
+          }
+          this.hideLoading();
+        }, 1000);
+      }
+    
+      validateCredentials(username, password) {
+        // Simulate credential validation
+        if (this.currentRole === 'manager') {
+          return username === 'gerente' && password === 'senha123';
+        } else {
+          return username === 'vendedor' && password === 'senha456';
+        }
+      }
+    
+      loginSuccess() {
+        this.loginSection.style.display = 'none';
+        this.mainSection.style.display = 'block';
+        document.getElementById('user-role-display').textContent = 
+          this.currentRole === 'manager' ? 'Gerente' : 'Vendedor';
+        
+        // Show/hide manager-only elements
+        const managerElements = document.querySelectorAll('.manager-only');
+        managerElements.forEach(el => {
+          el.style.display = this.currentRole === 'manager' ? 'block' : 'none';
+        });
+    
+        this.initializeData();
+        this.startBackupSystem();
+      }
+    
+      startBackupSystem() {
+        this.performBackup();
+        this.backupInterval = setInterval(() => this.performBackup(), 300000); // Every 5 minutes
+      }
+    
+      performBackup() {
+        const now = new Date().toLocaleString();
+        document.getElementById('last-backup-time').textContent = now;
+        this.saveToLocalStorage();
+      }
+    
+      handleLogout() {
+        clearInterval(this.backupInterval);
+        this.loginSection.style.display = 'block';
+        this.mainSection.style.display = 'none';
+        this.loginForm.reset();
+        this.currentRole = null;
+        this.roleCards.forEach(card => card.classList.remove('active'));
+        this.updateFeatureAccess();
+      }
+    
+      handlePrint() {
+        if (this.currentRole !== 'manager') {
+          alert('Acesso não autorizado');
+          return;
+        }
+        this.showLoading();
+        window.print();
+        this.hideLoading();
+      }
+    
+      handleArchive() {
+        if (this.currentRole !== 'manager') {
+          alert('Acesso não autorizado');
+          return;
+        }
+        
+        const currentDate = new Date().toLocaleDateString();
+        const newArchive = {
+          id: Date.now(),
+          date: currentDate,
+          name: `Planilha ${this.archivedSpreadsheets.length + 1}`
+        };
+    
+        this.archivedSpreadsheets.push(newArchive);
+        this.updateArchivedList();
+        this.saveToLocalStorage();
+      }
+    
+      updateArchivedList() {
+        const archivedList = document.getElementById('archived-list');
+        if (!archivedList) return;
+    
+        archivedList.innerHTML = this.archivedSpreadsheets.map(sheet => `
+          <div class="archived-item">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <h5>${sheet.name}</h5>
+                <small>Arquivado em: ${sheet.date}</small>
+              </div>
+              <div>
+                <button class="btn btn-sm btn-primary" onclick="system.viewArchived(${sheet.id})">
+                  <i class="fas fa-eye"></i> Visualizar
+                </button>
+              </div>
+            </div>
+          </div>
+        `).join('');
+      }
+    
+      viewArchived(id) {
+        const sheet = this.archivedSpreadsheets.find(s => s.id === id);
+        if (sheet) {
+          alert(`Visualizando ${sheet.name}`);
+        }
+      }
+    
+      saveToLocalStorage() {
+        localStorage.setItem('archivedSpreadsheets', JSON.stringify(this.archivedSpreadsheets));
+      }
+    
+      initializeData() {
+        const saved = localStorage.getItem('archivedSpreadsheets');
+        if (saved) {
+          this.archivedSpreadsheets = JSON.parse(saved);
+          this.updateArchivedList();
+        }
+      }
+    
+      showLoading() {
+        this.loadingSpinner.style.display = 'block';
+      }
+    
+      hideLoading() {
+        this.loadingSpinner.style.display = 'none';
+      }
+    }
+    
+    const system = new ConsortiumSystem();
+    </script>
+    
+    </body></html>

@@ -1,0 +1,401 @@
+<html><head><base href="https://consortium-management.app/planilhas">
+    <meta charset="UTF-8">
+    <title>Planilhas de Leads - Sistema de Gerenciamento de Consórcios</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/datatables.net-bs5@1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+    :root {
+      --primary-color: #2563eb;
+      --secondary-color: #1e40af;
+      --background-color: #f8fafc;
+      --text-color: #1e293b;
+      --menu-bg: #1e293b;
+      --hover-color: #3b82f6;
+    }
+    
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      min-height: 100vh;
+      display: flex;
+    }
+    
+    .sidebar {
+      width: 280px;
+      background-color: var(--menu-bg);
+      color: white;
+      position: fixed;
+      height: 100vh;
+      padding: 1rem;
+    }
+    
+    .main-content {
+      margin-left: 280px;
+      flex: 1;
+      padding: 2rem;
+    }
+    
+    .sidebar-header {
+      padding: 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      margin-bottom: 1rem;
+    }
+    
+    .sidebar-menu {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .sidebar-menu li {
+      margin-bottom: 0.5rem;
+    }
+    
+    .sidebar-menu a {
+      color: white;
+      text-decoration: none;
+      padding: 0.75rem 1rem;
+      display: block;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+    
+    .sidebar-menu a:hover, .sidebar-menu a.active {
+      background-color: var(--hover-color);
+    }
+    
+    .sidebar-menu i {
+      margin-right: 10px;
+      width: 20px;
+      text-align: center;
+    }
+    
+    .data-section {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .actions-bar {
+      background: white;
+      border-radius: 12px;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .table-hover tbody tr:hover {
+      background-color: rgba(37, 99, 235, 0.1) !important;
+      cursor: pointer;
+    }
+    
+    .selected-row {
+      background-color: rgba(37, 99, 235, 0.2) !important;
+    }
+    </style>
+    </head>
+    <body>
+    
+    <!-- Sidebar -->
+    <nav class="sidebar">
+      <div class="sidebar-header">
+        <h3>Nexus - Leads</h3>
+      </div>
+      <ul class="sidebar-menu">
+        <li>
+          <a href="file:///C:/Users/ThinkPad/Desktop/Nexus/dashboard.html" class="active">
+            <i class="fas fa-home"></i>
+            Dashboard
+          </a>
+        </li>
+        <li>
+          <a href="file:///C:/Users/ThinkPad/Desktop/Nexus/planilhas.html">
+            <i class="fas fa-table"></i>
+            Planilhas
+          </a>
+        </li>
+        <li>
+          <a href="file:///C:/Users/ThinkPad/Desktop/Nexus/arquivadas.html">
+            <i class="fas fa-archive"></i>
+            Arquivados
+          </a>
+        </li>
+       <!-- <li>
+          <a href="file:///C:/Users/ThinkPad/Desktop/Nexus/dashboard.html">
+            <i class="fas fa-chart-bar"></i>
+            Relatórios
+          </a>
+        </li> -->
+        <!-- <li>
+          <a href="file:///C:/Users/ThinkPad/Desktop/Nexus/contato.html">
+            <i class="fas fa-users"></i>
+            Vendedores
+          </a>
+        </li> -->
+        <!--<li>
+          <a href="/clientes">
+            <i class="fas fa-user-friends"></i>
+            Clientes
+          </a> -->
+        </li>
+        <li>
+          <a href="file:///C:/Users/ThinkPad/Desktop/Nexus/contato.html">
+            <i class="fas fa-phone-alt"></i>
+            Contatos
+          </a>
+        </li>
+        <li>
+          <a href="/configuracoes">
+            <i class="fas fa-cog"></i>
+            Configurações
+          </a>
+        </li>
+      </ul>
+    </nav>
+    
+    <main class="main-content">
+      <div class="container-fluid">
+        <div class="actions-bar">
+          <div>
+            <h2 class="mb-0">Planilha de Leads</h2>
+          </div>
+          <div class="d-flex gap-2">
+            <button id="printSelected" class="btn btn-primary" disabled>
+              <i class="fas fa-print me-2"></i>Imprimir Selecionados
+            </button>
+            <button id="archiveSelected" class="btn btn-secondary" disabled>
+              <i class="fas fa-archive me-2"></i>Arquivar Selecionados
+            </button>
+          </div>
+        </div>
+    
+        <div class="data-section">
+          <table id="leadsTable" class="table table-hover">
+            <thead>
+              <tr>
+                <th>
+                  <input type="checkbox" id="selectAll" class="form-check-input">
+                </th>
+                <th>Data</th>
+                <th>Nome</th>
+                <th>Cidade</th>
+                <th>Telefone</th>
+                <th>Veículo</th>
+                <th>Entrada</th>
+                <th>Parcela</th>
+                <th>Score</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Dados fake para demonstração -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/datatables.net@1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/datatables.net-bs5@1.13.4/js/dataTables.bootstrap5.min.js"></script>
+    
+    <script>
+    // Dados fake para demonstração
+    const fakeData = [
+      {
+        date: '2024-01-15',
+        name: 'João Silva',
+        city: 'São Paulo',
+        phone: '(11) 98765-4321',
+        vehicle: 'Honda Civic',
+        downPayment: 'R$ 15.000',
+        installment: 'R$ 850',
+        score: '750',
+        status: 'Novo'
+      },
+      {
+        date: '2024-01-14',
+        name: 'Maria Santos',
+        city: 'Rio de Janeiro',
+        phone: '(21) 98765-4321',
+        vehicle: 'Toyota Corolla',
+        downPayment: 'R$ 20.000',
+        installment: 'R$ 950',
+        score: '800',
+        status: 'Novo'
+      },
+      {
+        date: '2024-01-13',
+        name: 'Pedro Oliveira',
+        city: 'Curitiba',
+        phone: '(41) 98765-4321',
+        vehicle: 'Jeep Compass',
+        downPayment: 'R$ 25.000',
+        installment: 'R$ 1.200',
+        score: '820',
+        status: 'Novo'
+      }
+    ];
+    
+    $(document).ready(function() {
+      // Inicializar DataTable
+      const table = $('#leadsTable').DataTable({
+        data: fakeData,
+        columns: [
+          { 
+            data: null,
+            defaultContent: '',
+            orderable: false,
+            render: function(data, type, row) {
+              return '<input type="checkbox" class="form-check-input row-checkbox">';
+            }
+          },
+          { data: 'date' },
+          { data: 'name' },
+          { data: 'city' },
+          { data: 'phone' },
+          { data: 'vehicle' },
+          { data: 'downPayment' },
+          { data: 'installment' },
+          { data: 'score' },
+          { data: 'status' }
+        ],
+        language: {
+          url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/pt-BR.json'
+        },
+        order: [[1, 'desc']]
+      });
+    
+      // Selecionar/Deselecionar todos
+      $('#selectAll').on('change', function() {
+        const isChecked = $(this).prop('checked');
+        $('.row-checkbox').prop('checked', isChecked);
+        updateButtonsState();
+      });
+    
+      // Atualizar estado dos botões quando checkboxes individuais são alterados
+      $('#leadsTable').on('change', '.row-checkbox', function() {
+        updateButtonsState();
+      });
+    
+      function updateButtonsState() {
+        const selectedCount = $('.row-checkbox:checked').length;
+        $('#printSelected, #archiveSelected').prop('disabled', selectedCount === 0);
+      }
+    
+      // Imprimir selecionados
+      $('#printSelected').on('click', function() {
+        const selectedRows = [];
+        $('.row-checkbox:checked').each(function() {
+          const rowData = table.row($(this).closest('tr')).data();
+          selectedRows.push(rowData);
+        });
+    
+        if (selectedRows.length > 0) {
+          // Criar janela de impressão
+          const printWindow = window.open('', '_blank');
+          let printContent = `
+            <html>
+            <head>
+              <title>Leads Selecionados - ${new Date().toLocaleDateString()}</title>
+              <style>
+                body { font-family: Arial, sans-serif; }
+                table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+                th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+                th { background-color: #f5f5f5; }
+                .header { margin-bottom: 20px; }
+                @media print {
+                  .no-print { display: none; }
+                }
+              </style>
+            </head>
+            <body>
+              <div class="header">
+                <h2>Relatório de Leads - ${new Date().toLocaleDateString()}</h2>
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Data</th>
+                    <th>Nome</th>
+                    <th>Cidade</th>
+                    <th>Telefone</th>
+                    <th>Veículo</th>
+                    <th>Entrada</th>
+                    <th>Parcela</th>
+                    <th>Score</th>
+                  </tr>
+                </thead>
+                <tbody>
+          `;
+    
+          selectedRows.forEach(row => {
+            printContent += `
+              <tr>
+                <td>${row.date}</td>
+                <td>${row.name}</td>
+                <td>${row.city}</td>
+                <td>${row.phone}</td>
+                <td>${row.vehicle}</td>
+                <td>${row.downPayment}</td>
+                <td>${row.installment}</td>
+                <td>${row.score}</td>
+              </tr>
+            `;
+          });
+    
+          printContent += `
+                </tbody>
+              </table>
+              <div class="no-print" style="margin-top: 20px;">
+                <button onclick="window.print()">Imprimir</button>
+              </div>
+            </body>
+            </html>
+          `;
+    
+          printWindow.document.write(printContent);
+          printWindow.document.close();
+    
+          // Arquivar leads selecionados
+          const selectedIds = $('.row-checkbox:checked').map(function() {
+            return table.row($(this).closest('tr')).index();
+          }).get();
+    
+          // Remover linhas selecionadas
+          selectedIds.reverse().forEach(index => {
+            table.row(index).remove().draw();
+          });
+    
+          // Resetar checkbox principal
+          $('#selectAll').prop('checked', false);
+          updateButtonsState();
+        }
+      });
+    
+      // Arquivar selecionados
+      $('#archiveSelected').on('click', function() {
+        const selectedIds = $('.row-checkbox:checked').map(function() {
+          return table.row($(this).closest('tr')).index();
+        }).get();
+    
+        if (confirm(`Deseja arquivar ${selectedIds.length} leads selecionados?`)) {
+          selectedIds.reverse().forEach(index => {
+            table.row(index).remove().draw();
+          });
+    
+          $('#selectAll').prop('checked', false);
+          updateButtonsState();
+        }
+      });
+    });
+    </script>
+    
+    </body></html>

@@ -1,0 +1,412 @@
+<html><head><base href="https://consortium-management.app/" />
+<meta charset="UTF-8">
+<title>Configurações - Sistema de Gerenciamento de Consórcios</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" rel="stylesheet">
+<style>
+:root {
+  --primary-color: #2563eb;
+  --secondary-color: #1e40af;
+  --background-color: #f8fafc;
+  --text-color: #1e293b;
+  --menu-bg: #1e293b;
+  --hover-color: #3b82f6;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
+  display: flex;
+}
+
+.sidebar {
+  width: 280px;
+  background-color: var(--menu-bg);
+  color: white;
+  position: fixed;
+  height: 100vh;
+  padding: 1rem;
+  transition: all 0.3s ease;
+}
+
+.sidebar-header {
+  padding: 1rem;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  margin-bottom: 1rem;
+}
+
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar-menu li {
+  margin-bottom: 0.5rem;
+}
+
+.sidebar-menu a {
+  color: white;
+  text-decoration: none;
+  padding: 0.75rem 1rem;
+  display: block;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.sidebar-menu a:hover {
+  background-color: var(--hover-color);
+}
+
+.sidebar-menu i {
+  margin-right: 10px;
+  width: 20px;
+  text-align: center;
+}
+
+.main-content {
+  margin-left: 280px;
+  flex: 1;
+  padding: 2rem;
+}
+
+.contact-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  transition: transform 0.3s ease;
+}
+
+.contact-card:hover {
+  transform: translateY(-5px);
+}
+
+.contact-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.contact-icon {
+  width: 48px;
+  height: 48px;
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1rem;
+}
+
+.contact-info {
+  margin-left: 1rem;
+}
+
+.contact-info p {
+  margin-bottom: 0.5rem;
+}
+
+.department-title {
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--primary-color);
+}
+
+.active-status {
+  width: 10px;
+  height: 10px;
+  background-color: #10b981;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 0.5rem;
+}
+
+.offline-status {
+  background-color: #ef4444;
+}
+
+.button-contact {
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.button-contact:hover {
+  background: var(--secondary-color);
+  color: white;
+}
+
+.settings-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.settings-section {
+  margin-bottom: 2rem;
+}
+
+.settings-section h3 {
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--primary-color);
+}
+
+.form-control:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.25);
+}
+
+.save-button {
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.save-button:hover {
+  background: var(--secondary-color);
+}
+
+.profile-picture {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 4px solid var(--primary-color);
+  overflow: hidden;
+  margin: 0 auto 1.5rem;
+  position: relative;
+  cursor: pointer;
+}
+
+.profile-picture:hover .upload-overlay {
+  opacity: 1;
+}
+
+.upload-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.upload-overlay i {
+  color: white;
+  font-size: 2rem;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 0;
+    padding: 0;
+  }
+  
+  .main-content {
+    margin-left: 0;
+  }
+  
+  .sidebar.active {
+    width: 280px;
+    padding: 1rem;
+  }
+}
+</style>
+</head>
+<body>
+
+  <nav class="sidebar">
+    <div class="sidebar-header">
+      <h3>Nexus - Leads</h3>
+    </div>
+    <ul class="sidebar-menu">
+      <li>
+        <a href="file:///C:/Users/ThinkPad/Desktop/Nexus/dashboard.html" class="active">
+          <i class="fas fa-home"></i>
+          Dashboard
+        </a>
+      </li>
+      <li>
+        <a href="file:///C:/Users/ThinkPad/Desktop/Nexus/planilhas.html">
+          <i class="fas fa-table"></i>
+          Planilhas
+        </a>
+      </li>
+      <li>
+        <a href="file:///C:/Users/ThinkPad/Desktop/Nexus/arquivadas.html">
+          <i class="fas fa-archive"></i>
+          Arquivados
+        </a>
+      </li>
+     <!-- <li>
+        <a href="file:///C:/Users/ThinkPad/Desktop/Nexus/dashboard.html">
+          <i class="fas fa-chart-bar"></i>
+          Relatórios
+        </a>
+      </li> -->
+      <!-- <li>
+        <a href="file:///C:/Users/ThinkPad/Desktop/Nexus/contato.html">
+          <i class="fas fa-users"></i>
+          Vendedores
+        </a>
+      </li> -->
+      <!--<li>
+        <a href="/clientes">
+          <i class="fas fa-user-friends"></i>
+          Clientes
+        </a> -->
+      </li>
+      <li>
+        <a href="file:///C:/Users/ThinkPad/Desktop/Nexus/contato.html">
+          <i class="fas fa-phone-alt"></i>
+          Contatos
+        </a>
+      </li>
+      <li>
+        <a href="/configuracoes">
+          <i class="fas fa-cog"></i>
+          Configurações
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+<main class="main-content">
+  <h2 class="mb-4">Configurações da Conta</h2>
+
+  <div class="settings-card">
+    <div class="text-center mb-4">
+      <div class="profile-picture">
+        <img src="https://via.placeholder.com/150" alt="Foto do perfil" class="w-100 h-100">
+        <div class="upload-overlay">
+          <i class="fas fa-camera"></i>
+        </div>
+      </div>
+      <input type="file" id="profile-upload" hidden accept="image/*">
+    </div>
+
+    <form id="settings-form">
+      <div class="settings-section">
+        <h3>Informações Pessoais</h3>
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label class="form-label">Nome</label>
+            <input type="text" class="form-control" value="João Silva">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-control" value="joao.silva@consorciosys.com">
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label class="form-label">Telefone</label>
+            <input type="tel" class="form-control" value="(11) 98765-4321">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Cargo</label>
+            <input type="text" class="form-control" value="Gerente de Vendas" readonly>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <h3>Segurança</h3>
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label class="form-label">Senha Atual</label>
+            <input type="password" class="form-control">
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label class="form-label">Nova Senha</label>
+            <input type="password" class="form-control">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Confirmar Nova Senha</label>
+            <input type="password" class="form-control">
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <h3>Preferências de Notificação</h3>
+        <div class="form-check mb-2">
+          <input class="form-check-input" type="checkbox" checked id="emailNotif">
+          <label class="form-check-label" for="emailNotif">
+            Receber notificações por email
+          </label>
+        </div>
+        <div class="form-check mb-2">
+          <input class="form-check-input" type="checkbox" checked id="smsNotif">
+          <label class="form-check-label" for="smsNotif">
+            Receber notificações por SMS
+          </label>
+        </div>
+      </div>
+
+      <div class="text-end">
+        <button type="submit" class="save-button">
+          <i class="fas fa-save me-2"></i>Salvar Alterações
+        </button>
+      </div>
+    </form>
+  </div>
+</main>
+
+<script>
+document.querySelector('.profile-picture').addEventListener('click', () => {
+  document.getElementById('profile-upload').click();
+});
+
+document.getElementById('profile-upload').addEventListener('change', function(e) {
+  if (e.target.files && e.target.files[0]) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      document.querySelector('.profile-picture img').src = e.target.result;
+    }
+    reader.readAsDataURL(e.target.files[0]);
+  }
+});
+
+document.getElementById('settings-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const saveButton = this.querySelector('.save-button');
+  const originalText = saveButton.innerHTML;
+  
+  saveButton.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Salvando...';
+  saveButton.disabled = true;
+  
+  setTimeout(() => {
+    saveButton.innerHTML = '<i class="fas fa-check me-2"></i>Salvo!';
+    setTimeout(() => {
+      saveButton.innerHTML = originalText;
+      saveButton.disabled = false;
+    }, 2000);
+  }, 1500);
+});
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body></html>

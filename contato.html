@@ -1,0 +1,406 @@
+<html><head><base href="https://consortium-management.app/" />
+    <meta charset="UTF-8">
+    <title>Contatos - Sistema de Gerenciamento de Consórcios</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+    :root {
+      --primary-color: #2563eb;
+      --secondary-color: #1e40af;
+      --background-color: #f8fafc;
+      --text-color: #1e293b;
+      --menu-bg: #1e293b;
+      --hover-color: #3b82f6;
+    }
+    
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      min-height: 100vh;
+      display: flex;
+    }
+    
+    .sidebar {
+      width: 280px;
+      background-color: var(--menu-bg);
+      color: white;
+      position: fixed;
+      height: 100vh;
+      padding: 1rem;
+      transition: all 0.3s ease;
+    }
+    
+    .sidebar-header {
+      padding: 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      margin-bottom: 1rem;
+    }
+    
+    .sidebar-menu {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .sidebar-menu li {
+      margin-bottom: 0.5rem;
+    }
+    
+    .sidebar-menu a {
+      color: white;
+      text-decoration: none;
+      padding: 0.75rem 1rem;
+      display: block;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+    
+    .sidebar-menu a:hover {
+      background-color: var(--hover-color);
+    }
+    
+    .sidebar-menu i {
+      margin-right: 10px;
+      width: 20px;
+      text-align: center;
+    }
+    
+    .main-content {
+      margin-left: 280px;
+      flex: 1;
+      padding: 2rem;
+    }
+    
+    .contact-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      transition: transform 0.3s ease;
+    }
+    
+    .contact-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .contact-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    
+    .contact-icon {
+      width: 48px;
+      height: 48px;
+      background-color: var(--primary-color);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 1rem;
+    }
+    
+    .contact-info {
+      margin-left: 1rem;
+    }
+    
+    .contact-info p {
+      margin-bottom: 0.5rem;
+    }
+    
+    .department-title {
+      color: var(--primary-color);
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--primary-color);
+    }
+    
+    .active-status {
+      width: 10px;
+      height: 10px;
+      background-color: #10b981;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 0.5rem;
+    }
+    
+    .offline-status {
+      background-color: #ef4444;
+    }
+    
+    .button-contact {
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+    
+    .button-contact:hover {
+      background: var(--secondary-color);
+      color: white;
+    }
+    
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 0;
+        padding: 0;
+      }
+      
+      .main-content {
+        margin-left: 0;
+      }
+      
+      .sidebar.active {
+        width: 280px;
+        padding: 1rem;
+      }
+    }
+    </style>
+    </head>
+    <body>
+    
+      <nav class="sidebar">
+        <div class="sidebar-header">
+          <h3>Nexus - Leads</h3>
+        </div>
+        <ul class="sidebar-menu">
+          <li>
+            <a href="file:///C:/Users/ThinkPad/Desktop/Nexus/dashboard.html" class="active">
+              <i class="fas fa-home"></i>
+              Dashboard
+            </a>
+          </li>
+          <li>
+            <a href="file:///C:/Users/ThinkPad/Desktop/Nexus/planilhas.html">
+              <i class="fas fa-table"></i>
+              Planilhas
+            </a>
+          </li>
+          <li>
+            <a href="file:///C:/Users/ThinkPad/Desktop/Nexus/arquivadas.html">
+              <i class="fas fa-archive"></i>
+              Arquivados
+            </a>
+          </li>
+         <!-- <li>
+            <a href="file:///C:/Users/ThinkPad/Desktop/Nexus/dashboard.html">
+              <i class="fas fa-chart-bar"></i>
+              Relatórios
+            </a>
+          </li> -->
+          <!-- <li>
+            <a href="file:///C:/Users/ThinkPad/Desktop/Nexus/contato.html">
+              <i class="fas fa-users"></i>
+              Vendedores
+            </a>
+          </li> -->
+          <!--<li>
+            <a href="/clientes">
+              <i class="fas fa-user-friends"></i>
+              Clientes
+            </a> -->
+          </li>
+          <li>
+            <a href="file:///C:/Users/ThinkPad/Desktop/Nexus/contato.html">
+              <i class="fas fa-phone-alt"></i>
+              Contatos
+            </a>
+          </li>
+          <li>
+            <a href="/configuracoes">
+              <i class="fas fa-cog"></i>
+              Configurações
+            </a>
+          </li>
+        </ul>
+      </nav>
+    
+    <main class="main-content">
+      <h2 class="mb-4">Contatos</h2>
+    
+      <!-- Suporte -->
+      <h3 class="department-title">Suporte Técnico</h3>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="contact-card">
+            <div class="contact-header">
+              <div class="contact-icon">
+                <i class="fas fa-headset fa-lg"></i>
+              </div>
+              <div>
+                <h4>Suporte Técnico - Horário Comercial</h4>
+                <span class="active-status"></span>Online
+              </div>
+            </div>
+            <div class="contact-info">
+              <p><i class="fas fa-phone me-2"></i>(11) 4002-8922</p>
+              <p><i class="fas fa-envelope me-2"></i>suporte@consorciosys.com</p>
+              <p><i class="fas fa-clock me-2"></i>Segunda a Sexta: 8h às 18h</p>
+              <a href="https://suporte.consorciosys.com" class="button-contact">
+                <i class="fas fa-comment-dots me-2"></i>Chat Online
+              </a>
+            </div>
+          </div>
+        </div>
+    
+        <div class="col-md-6">
+          <div class="contact-card">
+            <div class="contact-header">
+              <div class="contact-icon">
+                <i class="fas fa-moon fa-lg"></i>
+              </div>
+              <div>
+                <h4>Suporte Plantão</h4>
+                <span class="active-status"></span>Emergências
+              </div>
+            </div>
+            <div class="contact-info">
+              <p><i class="fas fa-phone me-2"></i>(11) 98765-4321</p>
+              <p><i class="fas fa-envelope me-2"></i>plantao@consorciosys.com</p>
+              <p><i class="fas fa-clock me-2"></i>24/7 para emergências</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      <!-- Pós-Vendas -->
+      <h3 class="department-title">Pós-Vendas</h3>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="contact-card">
+            <div class="contact-header">
+              <div class="contact-icon">
+                <i class="fas fa-handshake fa-lg"></i>
+              </div>
+              <div>
+                <h4>Atendimento Pós-Vendas</h4>
+                <span class="active-status"></span>Online
+              </div>
+            </div>
+            <div class="contact-info">
+              <p><i class="fas fa-phone me-2"></i>(11) 4002-8933</p>
+              <p><i class="fas fa-envelope me-2"></i>posvendas@consorciosys.com</p>
+              <p><i class="fas fa-clock me-2"></i>Segunda a Sexta: 9h às 17h</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      <!-- Gerentes -->
+      <h3 class="department-title">Gerentes</h3>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="contact-card">
+            <div class="contact-header">
+              <div class="contact-icon">
+                <i class="fas fa-user-tie fa-lg"></i>
+              </div>
+              <div>
+                <h4>Carlos Silva</h4>
+                <span class="active-status"></span>Gerente Comercial
+              </div>
+            </div>
+            <div class="contact-info">
+              <p><i class="fas fa-phone me-2"></i>(11) 98888-7777</p>
+              <p><i class="fas fa-envelope me-2"></i>carlos.silva@consorciosys.com</p>
+            </div>
+          </div>
+        </div>
+    
+        <div class="col-md-4">
+          <div class="contact-card">
+            <div class="contact-header">
+              <div class="contact-icon">
+                <i class="fas fa-user-tie fa-lg"></i>
+              </div>
+              <div>
+                <h4>Ana Paula</h4>
+                <span class="active-status offline-status"></span>Gerente Operacional
+              </div>
+            </div>
+            <div class="contact-info">
+              <p><i class="fas fa-phone me-2"></i>(11) 97777-6666</p>
+              <p><i class="fas fa-envelope me-2"></i>ana.paula@consorciosys.com</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      <!-- Vendedores -->
+      <h3 class="department-title">Equipe de Vendas</h3>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="contact-card">
+            <div class="contact-header">
+              <div class="contact-icon">
+                <i class="fas fa-user fa-lg"></i>
+              </div>
+              <div>
+                <h4>Pedro Santos</h4>
+                <span class="active-status"></span>Vendedor Sênior
+              </div>
+            </div>
+            <div class="contact-info">
+              <p><i class="fas fa-phone me-2"></i>(11) 96666-5555</p>
+              <p><i class="fas fa-envelope me-2"></i>pedro.santos@consorciosys.com</p>
+            </div>
+          </div>
+        </div>
+    
+        <div class="col-md-4">
+          <div class="contact-card">
+            <div class="contact-header">
+              <div class="contact-icon">
+                <i class="fas fa-user fa-lg"></i>
+              </div>
+              <div>
+                <h4>Marina Costa</h4>
+                <span class="active-status"></span>Vendedora Sênior
+              </div>
+            </div>
+            <div class="contact-info">
+              <p><i class="fas fa-phone me-2"></i>(11) 95555-4444</p>
+              <p><i class="fas fa-envelope me-2"></i>marina.costa@consorciosys.com</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    
+    <script>
+    // Menu Toggle para mobile
+    function toggleSidebar() {
+      const sidebar = document.querySelector('.sidebar');
+      sidebar.classList.toggle('active');
+    }
+    
+    // Atualização de status em tempo real
+    function updateStatus() {
+      const statuses = document.querySelectorAll('.active-status');
+      statuses.forEach(status => {
+        if (Math.random() > 0.8) {
+          status.classList.toggle('offline-status');
+        }
+      });
+    }
+    
+    // Atualizar status a cada 30 segundos
+    setInterval(updateStatus, 30000);
+    
+    // Adicionar funcionalidade de clique para os botões de contato
+    document.querySelectorAll('.button-contact').forEach(button => {
+      button.addEventListener('click', (e) => {
+        e.preventDefault();
+        // Aqui você pode implementar a lógica de chat ou redirecionamento
+        console.log('Iniciando chat...');
+      });
+    });
+    </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    </body></html>

@@ -1,0 +1,123 @@
+<html><head><base href="https://consortium-management.app/contatos">
+    <meta charset="UTF-8">
+    <title>Contatos | ConsórcioSys - Erro 404</title>
+    <style>
+    :root {
+      --primary-color: #2563eb;
+      --background-color: #f8fafc;
+      --text-color: #1e293b;
+    }
+    
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+    
+    .error-container {
+      text-align: center;
+      padding: 2rem;
+      max-width: 600px;
+    }
+    
+    .error-code {
+      font-size: 8rem;
+      font-weight: bold;
+      color: var(--primary-color);
+      margin: 0;
+      line-height: 1;
+      opacity: 0.8;
+    }
+    
+    .error-message {
+      font-size: 1.5rem;
+      margin: 1rem 0;
+    }
+    
+    .error-details {
+      margin: 1rem 0;
+      color: #64748b;
+    }
+    
+    .back-button {
+      display: inline-block;
+      background-color: var(--primary-color);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      text-decoration: none;
+      margin-top: 1rem;
+      transition: all 0.3s ease;
+    }
+    
+    .back-button:hover {
+      background-color: #1e40af;
+    }
+    
+    /* SVG Animation */
+    .error-illustration {
+      width: 300px;
+      height: 300px;
+      margin: 2rem auto;
+    }
+    
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-20px);
+      }
+    }
+    
+    .floating {
+      animation: float 3s ease-in-out infinite;
+    }
+    </style>
+    </head>
+    <body>
+    
+    <div class="error-container">
+      <svg class="error-illustration floating" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="100" cy="100" r="90" fill="#e2e8f0" />
+        <path d="M60,80 Q100,120 140,80" stroke="#2563eb" stroke-width="8" fill="none" />
+        <circle cx="70" cy="60" r="10" fill="#2563eb" />
+        <circle cx="130" cy="60" r="10" fill="#2563eb" />
+      </svg>
+      
+      <h1 class="error-code">404</h1>
+      <h2 class="error-message">Página Não Encontrada</h2>
+      <p class="error-details">
+        Desculpe, mas parece que você está tentando acessar uma página que não existe em nosso sistema.
+        O domínio consortium-management.app não está configurado ou pode estar temporariamente indisponível.
+      </p>
+      <a href="/dashboard" class="back-button">Voltar para o Dashboard</a>
+    </div>
+    
+    <script>
+    // Adicionar interatividade ao SVG
+    const svg = document.querySelector('.error-illustration');
+    svg.addEventListener('mouseover', () => {
+      const face = svg.querySelector('path');
+      face.setAttribute('d', 'M60,100 Q100,60 140,100'); // Muda para um sorriso
+    });
+    
+    svg.addEventListener('mouseout', () => {
+      const face = svg.querySelector('path');
+      face.setAttribute('d', 'M60,80 Q100,120 140,80'); // Volta para a expressão original
+    });
+    
+    // Redirecionar para a página correta se necessário
+    if (window.location.pathname === '/contatos') {
+      console.log('Redirecionando para a página de contatos local...');
+      // Aqui você pode adicionar lógica de redirecionamento se necessário
+    }
+    </script>
+    
+    </body></html>
